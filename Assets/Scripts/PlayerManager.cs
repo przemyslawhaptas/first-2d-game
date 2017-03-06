@@ -15,6 +15,8 @@ public class PlayerManager : MonoBehaviour {
 	void Update () {
 		HandleWalking ();
 		HandleRunning ();
+		HandleJumping ();
+		HandleDying ();
 	}
 
 	private void HandleWalking() {
@@ -23,6 +25,14 @@ public class PlayerManager : MonoBehaviour {
 
 	private void HandleRunning() {
 		HandleKeyHold (KeyCode.R, "State", 2, 0);
+	}
+
+	private void HandleJumping() {
+		HandleKeyHold (KeyCode.E, "State", 3, 0);
+	}
+
+	private void HandleDying() {
+		HandleKeyHold (KeyCode.D, "State", 5, 0);
 	}
 
 	private void HandleKeyHold(KeyCode keyCode, string parameter, int downState, int upState) {
