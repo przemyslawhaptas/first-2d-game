@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,12 +18,14 @@ public class PlayerManager : MonoBehaviour {
 	void Start () {
 		animator = GetComponent<Animator> ();
 		rBody = GetComponent<Rigidbody2D> ();
+        facingRight = true;
 	}
 
 	// Update is called once per frame
 	void Update () {
 
 		MovePlayer (speed);
+        Flip();
 
 		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 			speed = -speedX;
@@ -42,10 +45,21 @@ public class PlayerManager : MonoBehaviour {
 			rBody.AddForce (new Vector2 (rBody.velocity.x, jumpSpeedY));
 			SetJumpingAnim ();
 		}
-
 	}
 
-	private void MovePlayer(float playerSpeed) {
+    private void Flip()
+    {
+        if (speed > 0 && !facingRight || speed < 0 && facingRight)
+        {
+            facingRight = !facingRight;
+
+            Vector3 tmp = transform.localScale;
+            tmp.x *= -1;
+            transform.localScale = tmp;
+        }
+    }
+
+    private void MovePlayer(float playerSpeed) {
 
 		if (!jumping) {
 			if (playerSpeed == 0) {
@@ -82,37 +96,29 @@ public class PlayerManager : MonoBehaviour {
 		animator.SetInteger ("State", 3);
 	}
 
+    public void WalkLeft()
+    {
+        speed = -speedX;
+    }
 
+    public void WalkRight()
+    {
+        speed = speedX;
+    }
 
-//		HandleWalking ();
-//		HandleRunning ();
-//		HandleJumping ();
-//		HandleDying ();}
-//
-//	private void HandleWalking() {
-//		HandleKeyHold (KeyCode.W, "State", 1, 0);
-//	}
-//
-//	private void HandleRunning() {
-//		HandleKeyHold (KeyCode.R, "State", 2, 0);
-//	}
-//
-//	private void HandleJumping() {
-//		HandleKeyHold (KeyCode.E, "State", 3, 0);
-//	}
-//
-//	private void HandleDying() {
-//		HandleKeyHold (KeyCode.D, "State", 5, 0);
-//	}
+    public void StopMoving()
+    {
+        speed = 0;
+    }
 
+    public void Jump()
+    {
+        if (!jumping)
+        {
+            jumping = true;
+            rBody.AddForce(new Vector2(rBody.velocity.x, jumpSpeedY));
+            SetJumpingAnim();
+        }
+    }
 
-//	private void HandleKeyHold(KeyCode keyCode, string parameter, int downState, int upState) {
-//		if (Input.GetKeyDown (keyCode)) {
-//			animator.SetInteger (parameter, downState);
-//		}
-//
-//		if (Input.GetKeyUp (keyCode)) {
-//			animator.SetInteger (parameter, upState);
-//		}
-//	}
 }
