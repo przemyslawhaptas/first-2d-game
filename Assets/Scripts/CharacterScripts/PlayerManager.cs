@@ -95,7 +95,7 @@ public class PlayerManager : BaseCharacterManager
                 Alive = false;
                 break;
             case "NextLevel":
-                SceneManager.LoadScene("GameOver"); // TODO - load next level
+                SceneManager.LoadScene("GameFinished"); // TODO - load next level
                 break;          
             case "Enemy":
                 var enemyObject = other.gameObject.GetComponent<EnemyManager>();
