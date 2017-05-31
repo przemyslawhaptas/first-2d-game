@@ -5,22 +5,22 @@ using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public partial class BaseCharacterManager : MonoBehaviour 
+public partial class BaseCharacterManager : MonoBehaviour
 {
-	protected Animator animator;
-	protected Rigidbody2D rBody;
+    protected Animator animator;
+    protected Rigidbody2D rBody;
     protected AnimationManager animationManager;
 
     protected int health;
     protected float speedX;
-	protected bool jumping = false;
+    protected bool jumping = false;
     protected Directions facingDirection;
     protected bool alive;
 
     public float PlayerSpeedX;
 
-	public AudioSource hurtSound;
-	public AudioSource jumpSound;
+    public AudioSource hurtSound;
+    public AudioSource jumpSound;
 
     public bool Alive
     {
@@ -34,7 +34,7 @@ public partial class BaseCharacterManager : MonoBehaviour
 
             alive = value;
         }
-    } 
+    }
 
     public Directions FacingDirection
     {
@@ -52,28 +52,28 @@ public partial class BaseCharacterManager : MonoBehaviour
         }
     }
 
-	public bool Jumping 
-	{
-		get { return jumping; }
-		set 
-		{
-			if (value == jumping) 
-			{
-				return;
-			}
+    public bool Jumping
+    {
+        get { return jumping; }
+        set
+        {
+            if (value == jumping)
+            {
+                return;
+            }
 
-			if (value) 
-			{
-				animationManager.SetJumpingAnim ();
-			} 
+            if (value)
+            {
+                animationManager.SetJumpingAnim();
+            }
             else
             {
                 animationManager.SetIdleAnim();
             }
 
-			jumping = value;
-		}
-	}
+            jumping = value;
+        }
+    }
 
     public int Health
     {
@@ -96,8 +96,9 @@ public partial class BaseCharacterManager : MonoBehaviour
         Alive = true;
     }
 
-    public void Update ()
+    public void Update()
     {
+        SetVelocity();
     }
 
     public virtual void Die()
@@ -108,7 +109,6 @@ public partial class BaseCharacterManager : MonoBehaviour
     public void RunLeft()
     {
         speedX = -PlayerSpeedX;
-        rBody.velocity = new Vector3 (speedX, rBody.velocity.y, 0);
         FacingDirection = Directions.Left;
 
         if (!Jumping)
@@ -120,7 +120,6 @@ public partial class BaseCharacterManager : MonoBehaviour
     public void RunRight()
     {
         speedX = PlayerSpeedX;
-        rBody.velocity = new Vector3 (speedX, rBody.velocity.y, 0);
         FacingDirection = Directions.Right;
 
         if (!Jumping)
@@ -132,11 +131,27 @@ public partial class BaseCharacterManager : MonoBehaviour
     public void StopMoving()
     {
         speedX = 0;
-        rBody.velocity = new Vector3(speedX, rBody.velocity.y, 0);
 
         if (!Jumping)
         {
             animationManager.SetIdleAnim();
+        }
+    }
+
+    public void SetVelocity()
+    {
+        rBody.velocity = new Vector3(speedX, rBody.velocity.y, 0);
+    }
+
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        var otherObject = other.gameObject.tag;
+
+        switch (otherObject)
+        {
+            case "LAVA":
+                Alive = false;
+                break;
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : BaseCharacterManager
 {
-    public const int PushBackValue = 80;
+    public int PushBackValue = 80;
     private Transform firePosition;
 	public GameObject leftBullet, rightBullet;
     public float JumpSpeedY;
@@ -25,6 +25,7 @@ public class PlayerManager : BaseCharacterManager
         if (Alive)
         {
             CheckInputStatus();
+            SetVelocity();
         }
     }
 
