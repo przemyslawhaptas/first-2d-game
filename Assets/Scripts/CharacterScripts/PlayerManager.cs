@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : BaseCharacterManager
@@ -9,8 +10,12 @@ public class PlayerManager : BaseCharacterManager
 	public GameObject leftBullet, rightBullet;
     public float JumpSpeedY;
 
+	private Text HealthText;
+
     public new void Start() {
 		Health = 9;
+		HealthText = GameObject.FindWithTag("HealthText").GetComponent<Text>();
+		HealthText.text = Health.ToString();
         firePosition = transform.Find ("firePos");
         base.Start();
 	}
@@ -109,6 +114,7 @@ public class PlayerManager : BaseCharacterManager
         if (enemy.Alive)
         {
             Health -= 1;
+			HealthText.text = Health.ToString();
 			hurtSound.Play ();
             PushbackPlayer();
         }
