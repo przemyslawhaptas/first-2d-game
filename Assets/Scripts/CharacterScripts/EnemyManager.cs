@@ -24,8 +24,8 @@ public partial class EnemyManager : BaseCharacterManager
     {
         if (Alive)
         {
-            ConsiderChangeState();
-            SetVelocity();
+            //ConsiderChangeState();
+            //SetVelocity();
         }
 
         base.Update();

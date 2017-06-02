@@ -22,7 +22,7 @@ public class PlayerManager : BaseCharacterManager
 
     public new void Update () {
         CheckControls();
-        base.Update();
+        SetVelocity();
     }
 
     public void CheckControls()
@@ -30,7 +30,6 @@ public class PlayerManager : BaseCharacterManager
         if (Alive)
         {
             CheckInputStatus();
-            SetVelocity();
         }
     }
 
@@ -38,18 +37,18 @@ public class PlayerManager : BaseCharacterManager
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            RunLeft();
+            ControlsLeft();
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {       
-            RunRight();
+            ControlsRight();
         }
 
-        if (!Input.GetKey(KeyCode.LeftArrow)
-            && !Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKeyUp(KeyCode.LeftArrow)
+            || Input.GetKeyUp(KeyCode.RightArrow))
         {
-            StopMoving();
+            ControlsStop();
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -61,6 +60,24 @@ public class PlayerManager : BaseCharacterManager
         {
             Fire();
         }
+    }
+
+    public void ControlsLeft()
+    {
+        RunLeft();
+        SetVelocity();
+    }
+
+    public void ControlsRight()
+    {
+        RunRight();
+        SetVelocity();
+    }
+
+    public void ControlsStop()
+    {
+        StopMoving();
+        SetVelocity();
     }
 
     public void Fire()

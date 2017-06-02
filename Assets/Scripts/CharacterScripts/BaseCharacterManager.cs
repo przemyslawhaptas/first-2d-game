@@ -98,7 +98,6 @@ public partial class BaseCharacterManager : MonoBehaviour
 
     public void Update()
     {
-        SetVelocity();
     }
 
     public virtual void Die()
