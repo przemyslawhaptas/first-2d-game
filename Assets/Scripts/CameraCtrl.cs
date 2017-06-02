@@ -11,14 +11,13 @@ public class CameraCtrl : MonoBehaviour {
         float yPosition;
         if (player.position.y <= 0)
         {
-            //yPosition = 0;
-            transform.position = new Vector3(player.position.x, transform.position.y, transform.position.z);
-
+			yPosition = transform.position.y;
         }
         else
         {
             yPosition = player.position.y + yOffset;
-            transform.position = new Vector3(player.position.x, yPosition, transform.position.z);
+            
         }
+		transform.position = new Vector3(player.position.x, yPosition, transform.position.z);
 	}
 }

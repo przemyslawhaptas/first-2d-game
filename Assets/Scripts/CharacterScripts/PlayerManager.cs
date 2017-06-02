@@ -13,7 +13,7 @@ public class PlayerManager : BaseCharacterManager
 	private Text HealthText;
 
     public new void Start() {
-		Health = 9;
+		Health = 3;
 		HealthText = GameObject.FindWithTag("HealthText").GetComponent<Text>();
 		HealthText.text = Health.ToString();
         firePosition = transform.Find ("firePos");
